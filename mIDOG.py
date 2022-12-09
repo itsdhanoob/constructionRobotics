@@ -87,11 +87,11 @@ def main():
                     
                 elif key == "p":
                     printHelp(settings)
-                    while True: 
-                        path= ('/home/group4/construction-robotics-ws-2022_23/cc')
-                        for i in path:
+                    img_num=0
+                    while (img_num <=30): 
+                        path= ('/home/group4/constructionRobotics/cc')
                         image= cv2.imwrite(path+"/Image_{}.png".format(img_num),video_getter.frame)
-                        img_num++
+                        img_num+=1
                     
                     
                 elif key == "h":
