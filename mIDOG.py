@@ -88,8 +88,8 @@ def main():
                 elif key == "p":
                     printHelp(settings)
                     img_num=0
-                    while (img_num <=30): 
-                        path= ('/home/group4/constructionRobotics/cc')
+                    while (img_num <=5): 
+                        path= ('/home/group4/constructionRobotics/at')
                         image= cv2.imwrite(path+"/Image_{}.png".format(img_num),video_getter.frame)
                         img_num+=1
                     
