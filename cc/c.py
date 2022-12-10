@@ -6,7 +6,7 @@ import glob
 
 ################ FIND CHESSBOARD CORNERS - OBJECT POINTS AND IMAGE POINTS #############################
 
-chessboardSize = (9,7) #width*height
+chessboardSize = (8,6) #width*height
 frameSize = (640,480)
 
 
@@ -30,17 +30,18 @@ imgpoints = [] # 2d points in image plane.
 
 images = glob.glob('*.jpg')
 
-for image in images<10:
-	img = cv.imread(image)
+for image in images:
+    img = cv.imread(image)
     # norm= np.zeros((800,800))
     # norm_img= cv.normalize(img, norm,0,255,cv.NORM_MINMAX)
     # img = cv.resize(img, (640, 480))
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-    
-   
+    cv.imshow("img",gray)
+    cv.waitKey(0)
+
     # Find the chess board corners
     ret, corners = cv.findChessboardCorners(img, chessboardSize, flags=cv.CALIB_CB_ADAPTIVE_THRESH + cv.CALIB_CB_FAST_CHECK+
-                                                                              cv.CALIB_CB_NORMALIZE_IMAGE+cv.CALIB_CB_FILTER_QUADS)
+                                                                    cv.CALIB_CB_NORMALIZE_IMAGE+cv.CALIB_CB_FILTER_QUADS)
     # If found, add object points, image points (after refining them)
     if ret == True:
         objpoints.append(objp)
@@ -49,13 +50,10 @@ for image in images<10:
 
         # Draw and display the corners
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
-        img+=1
         cv.imshow('img', img)
         cv.waitKey(0)
-	else:
-		print("somethings wrong")
-
-
+    else:
+        print("somethings wrong")
 
 cv.destroyAllWindows()
 
