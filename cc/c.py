@@ -43,8 +43,8 @@ for image in images:
         imgpoints.append(corners)
         # Draw and display the corners
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
-        cv.imshow('img', img)
-        cv.waitKey(0)
+        # cv.imshow('img', img)
+        # cv.waitKey(0)
         img=img+1
 
 cv.destroyAllWindows()
@@ -55,8 +55,8 @@ print('calibrating_camera')
 ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, frameSize, None, None, flags=cv.CALIB_RATIONAL_MODEL)
 
 
-print('/n ret is:', ret)
-print('/n camera matrix is:', cameraMatrix)
-print('/n distortion is:', dist)
+print('\n ret is:', ret)
+print('\n camera matrix is:', cameraMatrix)
+print('\n distortion is:', dist)
 
 
