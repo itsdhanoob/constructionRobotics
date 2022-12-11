@@ -45,7 +45,7 @@ for image in images:
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
         cv.imshow('img', img)
         cv.waitKey(0)
-	img=img+1
+        img=img+1
 
 cv.destroyAllWindows()
 print('calibrating_camera')
