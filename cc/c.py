@@ -41,39 +41,18 @@ for image in images:
         objpoints.append(objp)
         corners2 = cv.cornerSubPix(gray, corners, (11,11), (-1,-1), criteria)
         imgpoints.append(corners)
-
         # Draw and display the corners
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
         cv.imshow('img', img)
         cv.waitKey(0)
-    else:
-        print("somethings wrong")
-
-# Find the chess board corners
-ret, corners = cv.findChessboardCorners(img, chessboardSize, flags=cv.CALIB_CB_ADAPTIVE_THRESH + cv.CALIB_CB_FAST_CHECK+
-                                                    cv.CALIB_CB_NORMALIZE_IMAGE+cv.CALIB_CB_FILTER_QUADS)
-# If found, add object points, image points (after refining them)
-if ret == True:
-
-    objpoints.append(objp)
-    corners2 = cv.cornerSubPix(gray, corners, (14,14), (-1,-1), criteria)
-    imgpoints.append(corners)
-
-    # Draw and display the corners
-    cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
-    cv.imshow('img', img)
-    cv.waitKey(0)
-
-else:
-    print("somethings wrong")
-
+	img=img+1
 
 cv.destroyAllWindows()
 print('calibrating_camera')
 
 ############# CALIBRATION #######################################################
 
-ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, frameSize, None, None)
+ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, frameSize, None, None, flags=cv.CALIB_RATIONAL_MODEL)
 
 
 print('/n ret is:', ret)
