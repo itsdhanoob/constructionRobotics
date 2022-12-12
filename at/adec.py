@@ -26,8 +26,19 @@ for image in images:
 		#detector= apriltag.Detector(options)
 	detector= apriltag('tagStandard41h12')
 	result= detector.detect(img)
-	
-	#result=apriltag.Detector()
-	#cv.imshow("dected_image",result)
 	print(result)
-	cv.waitKey(0)
+	
+	#print(result)
+	cv.waitKey(0) 
+	t_size= .10
+	
+	c_param=[[566.17993276,   0.,        318.86306433],
+			[  0.,         567.08593332, 212.10183606],
+			[  0. ,          0.,           1.,        ]]
+	
+	
+	pose= detector.detect(img, estimate_tag_pose=True, tag_size=t_size)
+	print(pose)
+	
+	
+	
