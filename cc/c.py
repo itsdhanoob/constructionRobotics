@@ -50,7 +50,7 @@ for image in images:
 cv.destroyAllWindows()
 print('calibrating_camera')
 
-############# CALIBRATION #######################################################
+# calibration of camera
 
 ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, frameSize, None, None, flags=cv.CALIB_RATIONAL_MODEL)
 
@@ -58,5 +58,18 @@ ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints,
 print('\n ret is:', ret)
 print('\n camera matrix is:', cameraMatrix)
 print('\n distortion is:', dist)
+# print("\n estimated rotation vector are:", rvecs)
+# print("\n estimates translation vector are:", tvecs)
 
+# error in camera 
+
+mean_error = 0
+
+for i in range(len(objpoints)):
+
+    img_points2, _ = cv.projectPoints(objpoints[i], rvecs[i], tvecs[i], cameraMatrix, dist)
+    error = cv.norm(imgpoints[i], img_points2, cv.NORM_L2)/len(img_points2)
+    mean_error += error
+
+print("total error is : {}".format(mean_error/len(objpoints)))
 
