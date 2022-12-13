@@ -7,7 +7,7 @@ images= glob.glob("*.png")
 
 for image in images:
 	img= cv.imread(image, cv.IMREAD_GRAYSCALE)
-	print(img)
+	#print(img)
 	#gray= cv.cvtColor(img, cv.COLOR_BGR2GRAY)
 		
 		
@@ -37,8 +37,10 @@ for image in images:
 			[  0. ,          0.,           1.,        ]]
 	
 	
-	pose= detector.detect(img, estimate_tag_pose=True, tag_size=t_size)
-	print(pose)
-	
+	# pose= estimate_tag_pose(img, estimate_tag_pose=True, tag_size=t_size)
+	# print(pose)
+	# detector= apriltag('tagStandard41h12')
+	# detections = detector.detect(img, estimate_tag_pose=True, camera_params=c_param,tag_size=t_size)
+	# print(detections)
 	
 	
