@@ -28,8 +28,6 @@ for image in images:
 	result= detector.detect(img)
 	print(result)
 	
-	#print(result)
-	cv.waitKey(0) 
 	t_size= .10
 	
 	c_param=[[566.17993276,   0.,        318.86306433],
@@ -42,5 +40,7 @@ for image in images:
 	# detector= apriltag('tagStandard41h12')
 	# detections = detector.detect(img, estimate_tag_pose=True, camera_params=c_param,tag_size=t_size)
 	# print(detections)
+	
+	
 	
 	
