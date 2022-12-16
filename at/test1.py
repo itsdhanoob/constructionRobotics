@@ -58,6 +58,17 @@ ret, rvecs, tvecs = cv.solvePnP(object_points, image_points, cam_matrix, dist_ma
 print("rotation is:",rvecs)
 print("\n trans is:", tvecs)
 
+rmat_rgb= []
 
-						
-						
+for rvecs in rvecs:
+	rmat, jacobian = cv.Rodrigues(rvecs)
+	rmat_rgb.append(rmat)
+
+
+temp= [0,0,0,1]
+
+pose_3x4 = np.c_[rmat, np.reshape(tvecs,(3,1))]
+pose_hm = np.r_[pose_3x4, np.reshape(temp,(1,4))]
+
+
+print("Pose in homogenous matrix form:", pose_hm) 

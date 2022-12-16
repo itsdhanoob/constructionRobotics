@@ -55,13 +55,23 @@ print('calibrating_camera')
 ret, cameraMatrix, dist, rvecs, tvecs = cv.calibrateCamera(objpoints, imgpoints, frameSize, None, None, flags=cv.CALIB_RATIONAL_MODEL)
 
 
+
+
+
+sys.stdout = open("hm.txt", "w")
+
 print('\n ret is:', ret)
 print('\n camera matrix is:', cameraMatrix)
 print('\n distortion is:', dist)
+
+sys.stdout.close()
+
 # print("\n estimated rotation vector are:", rvecs)
 # print("\n estimates translation vector are:", tvecs)
 
 # error in camera 
+
+
 
 mean_error = 0
 
@@ -72,4 +82,3 @@ for i in range(len(objpoints)):
     mean_error += error
 
 print("total error is : {}".format(mean_error/len(objpoints)))
-
