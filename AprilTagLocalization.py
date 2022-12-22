@@ -75,27 +75,28 @@ class AprilTag:
                         ret, rvecs, tvecs = cv.solvePnP(object_points, image_points, cam_matrix, dist_matrix, flags=cv.SOLVEPNP_IPPE_SQUARE)
                         
                         
-
+                        # print(type(tvecs))
                         # print("rotation is:",rvecs)
                         # print("\n trans is:", tvecs)
                         
-                        while True:
+                        # while True:
                                 
-                                pd.DataFrame(rvecs).to_csv("/home/group4/ege_ConsRob/constructionRobotics/data.csv", header=None, index=None)
+                                # np.savetxt("/home/group4/ege_ConsRob/constructionRobotics/data.csv",tvecs, delimiter=",")
+                                # pd.DataFrame(rvecs).to_csv("/home/group4/ege_ConsRob/constructionRobotics/data.csv", header=None, index=None)
                                 
-                                # with open('data.csv', 'w') as csv_file:
+                        with open('data.csv', 'w') as csv_file:
                                         
-                                        # fieldnames=['rvecs', 'tvecs']
-                                        
-                                        # writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
-                                        
-                                        # info={
-                                                # "rvecs":rvecs,
-                                                # "tvecs":tvecs
-                                                # }
-                                        # writer.writerow(info)
-                                        # rvecs+=1
-                                        # tvecs+=1
+                                fieldnames=['rvecs', 'tvecs']
+                                
+                                writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
+                                
+                                info={
+                                        "rvecs":rvecs,
+                                        "tvecs":tvecs
+                                        }
+                                writer.writerow(info)
+                                # rvecs+=1
+                                # tvecs+=1
                         
                 elif len(result)<=0:
                         print("nothing to detect")
