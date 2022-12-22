@@ -30,6 +30,11 @@ class AprilTag:
     def __init__(self, frame=None):
         self.frame = frame
         self.stopped = False
+        self.tvector=np.array([0,0,0])
+        self.rvector=np.array([0,0,0])
+        
+    
+
     
     def start(self):
         threading.Thread(target=self.localize, args=()).start()
@@ -40,67 +45,79 @@ class AprilTag:
         global cam_matrix
         global dist_matrix
         
-        while True:
-            if self.frame is None:
-                print("dcbhdsfbhj ")
-            
-            else:
-                #image=self.frame
-                img= cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
-                # apriltag detection
-                detector= apriltag('tagStandard41h12')
-                time.sleep(1)
-                result= detector.detect(img)
+      
+        # np.savetxt("/home/group4/ege_ConsRob/constructionRobotics/data.csv",self.tvector, delimiter=",")
+        with open('/home/group4/ege_ConsRob/constructionRobotics/data.csv', 'w') as csv_file:
+                        
+                fieldnames=['rvecs', 'tvecs']
                 
-                if len(result) > 0:
-                    for r in result:
-                        a =(r["lb-rb-rt-lt"])
+                writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
+                info={"rvecs":self.rvector,"tvecs":self.tvector}
+                
+                while True:
+                    if self.frame is None:
+                        print("No tags detected.")
                     
+                    else:
+                        #image=self.frame
+                        img= cv.cvtColor(self.frame, cv.COLOR_BGR2GRAY)
+                        # apriltag detection
+                        detector= apriltag('tagStandard41h12')
+                        time.sleep(1)
+                        result= detector.detect(img)
+                        
+                        if len(result) > 0:
+                            for r in result:
+                                a =(r["lb-rb-rt-lt"])
                             
-                        image_points = np.asarray(a)
-                        
-                                        
-                                        
-                        # 3d real world points alwyas from center of tag
+                                    
+                                image_points = np.asarray(a)
+                                
+                                                
+                                                
+                                # 3d real world points alwyas from center of tag
 
-                        object_point = [[-0.05 , 0.05 , 0],
-                                        [0.05, 0.05, 0],
-                                        [0.05, -0.05, 0],
-                                        [-0.05, -0.05, 0]]
-                                        
-                        object_points= np.asarray(object_point)
+                                object_point = [[-0.05 , 0.05 , 0],
+                                                [0.05, 0.05, 0],
+                                                [0.05, -0.05, 0],
+                                                [-0.05, -0.05, 0]]
+                                                
+                                object_points= np.asarray(object_point)
 
-                        # cv pose estimations
+                                # cv pose estimations
 
-                        ret, rvecs, tvecs = cv.solvePnP(object_points, image_points, cam_matrix, dist_matrix, flags=cv.SOLVEPNP_IPPE_SQUARE)
-                        
-                        
-                        # print(type(tvecs))
-                        # print("rotation is:",rvecs)
-                        # print("\n trans is:", tvecs)
-                        
-                        # while True:
+                                ret, rvecs, tvecs = cv.solvePnP(object_points, image_points, cam_matrix, dist_matrix, flags=cv.SOLVEPNP_IPPE_SQUARE)
                                 
-                                # np.savetxt("/home/group4/ege_ConsRob/constructionRobotics/data.csv",tvecs, delimiter=",")
-                                # pd.DataFrame(rvecs).to_csv("/home/group4/ege_ConsRob/constructionRobotics/data.csv", header=None, index=None)
                                 
-                        with open('data.csv', 'w') as csv_file:
-                                        
-                                fieldnames=['rvecs', 'tvecs']
+                                # print(type(tvecs))
+                                self.tvector=tvecs
+                                self.rvector=rvecs
+                                print("rotation is:",self.rvector)
+                                print("\n trans is:", self.tvector)
                                 
-                                writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
-                                
-                                info={
-                                        "rvecs":rvecs,
-                                        "tvecs":tvecs
-                                        }
                                 writer.writerow(info)
-                                # rvecs+=1
-                                # tvecs+=1
-                        
-                elif len(result)<=0:
-                        print("nothing to detect")
-        pass
+                                
+                                        
+                                # np.savetxt("/home/group4/ege_ConsRob/constructionRobotics/data.csv",self.tvector, delimiter=",")
+                                        # pd.DataFrame(rvecs).to_csv("/home/group4/ege_ConsRob/constructionRobotics/data.csv", header=None, index=None)
+                                        
+                                # with open('data.csv', 'w') as csv_file:
+                                                
+                                        # fieldnames=['rvecs', 'tvecs']
+                                        
+                                        # writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
+                                        
+                                        # info={
+                                                # "rvecs":rvecs,
+                                                # "tvecs":tvecs
+                                                # }
+                                        # writer.writerow(info)
+                                        # rvecs+=1
+                                        # tvecs+=1
+                                
+                        elif len(result)<=0:
+                                print("nothing to detect")
+                pass
     
     def stop(self):
         self.stopped = True
