@@ -5,7 +5,8 @@ import threading
 import numpy as np
 import cv2 as cv
 import time
-
+import csv
+import pandas as pd
 
 cam_mat = [[566.17993276,   0.,        318.86306433],
 				[  0.,         567.08593332, 212.10183606],
@@ -72,10 +73,29 @@ class AprilTag:
                         # cv pose estimations
 
                         ret, rvecs, tvecs = cv.solvePnP(object_points, image_points, cam_matrix, dist_matrix, flags=cv.SOLVEPNP_IPPE_SQUARE)
+                        
+                        
 
-
-                        print("rotation is:",rvecs)
-                        print("\n trans is:", tvecs)
+                        # print("rotation is:",rvecs)
+                        # print("\n trans is:", tvecs)
+                        
+                        while True:
+                                
+                                pd.DataFrame(rvecs).to_csv("/home/group4/ege_ConsRob/constructionRobotics/data.csv", header=None, index=None)
+                                
+                                # with open('data.csv', 'w') as csv_file:
+                                        
+                                        # fieldnames=['rvecs', 'tvecs']
+                                        
+                                        # writer=csv.DictWriter(csv_file, fieldnames=fieldnames)
+                                        
+                                        # info={
+                                                # "rvecs":rvecs,
+                                                # "tvecs":tvecs
+                                                # }
+                                        # writer.writerow(info)
+                                        # rvecs+=1
+                                        # tvecs+=1
                         
                 elif len(result)<=0:
                         print("nothing to detect")
